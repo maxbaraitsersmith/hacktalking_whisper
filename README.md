@@ -26,5 +26,10 @@ get whisper-live
 `$unzip v0.5.1.zip`
 
 install whisper-live
-`$bash scripts/setup.sh`
-`$pip install whisper-live`
+`$sudo bash WhisperLive-0.5.1/scripts/setup.sh`
+`$pip install --force-reinstall -v "whisper-live==0.5.1"`
+`$pip install --force-reinstall -v "numpy<2>"`
+
+run the server and the client
+`$sh server.sh`
+`$python client.py`
