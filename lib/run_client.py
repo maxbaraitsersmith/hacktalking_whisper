@@ -1,4 +1,5 @@
-from whisper_live.client import TranscriptionClient
+#from whisper_live.client import TranscriptionClient
+from client_custom import TranscriptionClient
 
 client = TranscriptionClient(
   "dc-max.local",
@@ -8,6 +9,5 @@ client = TranscriptionClient(
   model="tiny.en",
   use_vad=True,
   save_output_recording=True,
-  output_recording_filename="./output/output.wav",
 )
 client()
