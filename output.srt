@@ -1,0 +1,56 @@
+1
+00:00:04,096 --> 00:00:05,631
+ testing
+
+2
+00:00:07,679 --> 00:00:09,215
+ Yes
+
+3
+00:00:09,215 --> 00:00:11,263
+ that seems to work, nice.
+
+4
+00:00:12,288 --> 00:00:15,615
+ Now, look at that, same in a quick quick.
+
+5
+00:00:16,640 --> 00:00:18,175
+ interesting
+
+6
+00:00:18,175 --> 00:00:19,455
+ interesting.
+
+7
+00:00:19,455 --> 00:00:22,783
+ So how quickly does this change?
+
+8
+00:00:24,832 --> 00:00:26,623
+ Okay, that's a new feature.
+
+9
+00:00:28,672 --> 00:00:30,719
+ That's a new feature
+
+10
+00:00:31,743 --> 00:00:32,743
+ That's interesting.
+
+11
+00:00:32,743 --> 00:00:37,119
+ interesting, interesting, a lot of love.
+
+12
+00:00:37,119 --> 00:00:38,655
+ Very cool, very cool.
+
+13
+00:01:20,640 --> 00:01:22,176
+ Okay, interesting.
+
+14
+00:01:24,224 --> 00:01:26,784
+ very interesting and nice.
+
