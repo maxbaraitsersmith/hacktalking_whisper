@@ -8,6 +8,6 @@ client = TranscriptionClient(
   model="tiny.en",
   use_vad=True,
   save_output_recording=True,
-  output_recording_filename="./output.wav",
+  output_recording_filename="./output/output.wav",
 )
 client()
