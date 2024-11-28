@@ -33,3 +33,19 @@ install whisper-live
 run the server and the client
 `$sh server.sh`
 `$python client.py`
+
+installing cuDNN (for nvidia GPUs)
+
+WhisperLive-0.5.1 uses ctranslate2 v4.5.0, which uses cuDNN 9. So, we must manually install the cudnn toolkit (V12) and then cudnn (v9)
+
+Install nvidia drivers:
+    `$sudo ubuntu-drivers install`
+    `$nvidia-smi #check drivers work`
+
+Installed cudnn drivers using apt:
+    `$sudo apt install nvidia-cuda-toolkit`
+    `$nvcc --version #verify cuda install`
+
+Download cuDNN installer from nvidia website, and followed instructions for installing cuDNN 12
+    instructions at https://developer.nvidia.com/cudnn-downloads
+	`$sudo apt-get -y install cudnn`
