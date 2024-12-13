@@ -5,7 +5,7 @@
     #import send_output
 
 #changed line 119 - to print segments as soon as they are processed
-    #send_output.send_output(seg)
+    #send_output.addDatum(seg)
 
 #changed line 565 - to make chunks save every second rather than every 60 seconds
     #if len(self.frames) > 1 * self.rate:
@@ -15,6 +15,15 @@
             #self.write_output_recording(n_audio_file)
         #self.write_all_clients_srt()
 
+# added line 557
+        #send_output.startRecordingTimestamp()
+
+#STEREO CHANGE: SEEMS TO PRODUCE UNWANTED AUDIO OUT OF SYNC WITH TIMESTAMP, SO I REMOVED IT:
+    #changed line 307 - setting stereo
+        #self.channels = 2 #1
+
+    #changed line 581 - deinterlacing stereo output in order to send only mono to server
+        #audio_array = audio_array[0::2]
 
 import send_output
 
@@ -134,7 +143,7 @@ class Client:
                       (not self.transcript or
                         float(seg['start']) >= float(self.transcript[-1]['end']))):
                     self.transcript.append(seg)
-                    send_output.send_output(seg)
+                    send_output.addDatum(seg)
         # update last received segment and last valid response time
         if self.last_received_segment is None or self.last_received_segment != segments[-1]["text"]:
             self.last_response_received = time.time()
@@ -304,7 +313,7 @@ class TranscriptionTeeClient:
             raise Exception("At least one client is required.")
         self.chunk = 4096
         self.format = pyaudio.paInt16
-        self.channels = 1
+        self.channels = 1 #2
         self.rate = 16000
         self.record_seconds = 60000
         self.save_output_recording = save_output_recording
@@ -393,7 +402,6 @@ class TranscriptionTeeClient:
         Args:
             filename (str): The path to the audio file to be played and sent to the server.
         """
-
         # read audio and create pyaudio stream
         with wave.open(filename, "rb") as wavfile:
             self.stream = self.p.open(
@@ -550,6 +558,7 @@ class TranscriptionTeeClient:
         #self.write_all_clients_srt()
 
     def record(self):
+        send_output.startRecordingTimestamp()
         """
         Record audio data from the input stream and save it to a WAV file.
 
@@ -572,9 +581,12 @@ class TranscriptionTeeClient:
                 if not any(client.recording for client in self.clients):
                     break
                 data = self.stream.read(self.chunk, exception_on_overflow=False)
+
                 self.frames += data
 
                 audio_array = self.bytes_to_float_array(data)
+
+                #audio_array = audio_array[0::2]
 
                 self.multicast_packet(audio_array.tobytes())
 

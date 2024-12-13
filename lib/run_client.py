@@ -2,7 +2,7 @@
 from client_custom import TranscriptionClient
 
 client = TranscriptionClient(
-  "dc-max.local",
+  "localhost",#"dc-max.local",
   9090,
   lang="en",
   translate=False,
