@@ -1,13 +1,14 @@
 import pyaudio
 import wave
 import math
+import random
 
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 48000 #16000
 CHUNK = 4096
-RECORD_SECONDS = 5
-WAVE_OUTPUT_FILENAME = "recordedFile.wav"
+RECORD_SECONDS = 10
+WAVE_OUTPUT_FILENAME = f"recordedFile_{random.randint(1,999)}.wav"
 audio = pyaudio.PyAudio()
 
 print("----------------------record device list---------------------")

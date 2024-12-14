@@ -25,6 +25,11 @@
     #changed line 581 - deinterlacing stereo output in order to send only mono to server
         #audio_array = audio_array[0::2]
 
+    #changed line 630
+            # wavfile.setframerate(self.rate_hq)
+            # wavfile.setnchannels(self.channels_hq)
+
+
 import send_output
 
 import os
@@ -313,13 +318,18 @@ class TranscriptionTeeClient:
             raise Exception("At least one client is required.")
         self.chunk = 4096
         self.format = pyaudio.paInt16
-        self.channels = 1 #2
-        self.rate = 16000 #48000
+        self.channels = 1
+        self.rate = 16000
         self.record_seconds = 60000
         self.save_output_recording = save_output_recording
         self.output_recording_filename = output_recording_filename
         self.frames = b""
         self.p = pyaudio.PyAudio()
+
+        self.channels_hq = 2
+        self.rate_hq = 16000
+        self.frames_hq = b""
+
         try:
             self.stream = self.p.open(
                 format=self.format,
@@ -327,8 +337,16 @@ class TranscriptionTeeClient:
                 rate=self.rate,
                 input=True,
                 frames_per_buffer=self.chunk,
-                #input_device_index=4, #4=jack. 18=default
+                input_device_index=19, #4=jack. 18 or 19=default
             )
+            # self.stream_hq = self.p.open(
+            #     format=self.format,
+            #     channels=self.channels_hq,
+            #     rate=self.rate_hq,
+            #     input=True,
+            #     frames_per_buffer=self.chunk,
+            #     input_device_index=19, #4=jack. 18 or 19=default
+            # )
         except OSError as error:
             print(f"[WARN]: Unable to access microphone. {error}")
             self.stream = None
@@ -532,7 +550,7 @@ class TranscriptionTeeClient:
         """
         t = threading.Thread(
             target=self.write_audio_frames_to_file,
-            args=(self.frames[:], f"chunks/{n_audio_file}.wav",),
+            args=(self.frames_hq[:], f"chunks/{n_audio_file}.wav",),
         )
         t.start()
 
@@ -582,8 +600,10 @@ class TranscriptionTeeClient:
                 if not any(client.recording for client in self.clients):
                     break
                 data = self.stream.read(self.chunk, exception_on_overflow=False)
+                #data_hq = self.stream_hq.read(self.chunk, exception_on_overflow=False)
 
                 self.frames += data
+                #self.frames_hq += data_hq
 
                 audio_array = self.bytes_to_float_array(data)
 
@@ -598,6 +618,7 @@ class TranscriptionTeeClient:
                         self.save_chunk(n_audio_file)
                         n_audio_file += 1
                     self.frames = b""
+                    self.frames_hq = b""
             self.write_all_clients_srt()
 
         except KeyboardInterrupt:
@@ -617,9 +638,9 @@ class TranscriptionTeeClient:
         """
         with wave.open(file_name, "wb") as wavfile:
             wavfile: wave.Wave_write
-            wavfile.setnchannels(self.channels)
+            wavfile.setnchannels(self.channels_hq)
             wavfile.setsampwidth(2)
-            wavfile.setframerate(self.rate)
+            wavfile.setframerate(self.rate_hq)
             wavfile.writeframes(frames)
 
     def write_output_recording(self, n_audio_file):

@@ -1,12 +1,6 @@
 #changed line 27 to make max_connection_time longer
     #def __init__(self, max_clients=4, max_connection_time=9999999999):
 
-# changed line 156
-    #RATE = 48000 #16000
-
-# changed line 407
-    #RATE = 48000 #16000
-
 import os
 import time
 import threading
@@ -153,7 +147,7 @@ class BackendType(Enum):
 
 
 class TranscriptionServer:
-    RATE = 48000 #16000
+    RATE = 16000
 
     def __init__(self):
         self.client_manager = ClientManager()
@@ -404,7 +398,7 @@ class TranscriptionServer:
 
 
 class ServeClientBase(object):
-    RATE = 48000 #16000
+    RATE = 16000
     SERVER_READY = "SERVER_READY"
     DISCONNECT = "DISCONNECT"
 
