@@ -37,7 +37,8 @@ if __name__ == "__main__":
     if "OMP_NUM_THREADS" not in os.environ:
         os.environ["OMP_NUM_THREADS"] = str(args.omp_num_threads)
 
-    from whisper_live.server import TranscriptionServer
+    #from whisper_live.server import TranscriptionServer
+    from server_custom import TranscriptionServer
 
     server = TranscriptionServer()
     server.run(

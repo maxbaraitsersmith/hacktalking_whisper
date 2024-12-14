@@ -2,11 +2,11 @@
 from client_custom import TranscriptionClient
 
 client = TranscriptionClient(
-  "localhost",#"dc-max.local",
+  "dc-max.local", #"localhost",
   9090,
   lang="en",
   translate=False,
-  model="tiny.en",
+  model="medium.en", #model="tiny.en",
   use_vad=True,
   save_output_recording=True,
 )

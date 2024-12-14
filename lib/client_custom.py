@@ -314,7 +314,7 @@ class TranscriptionTeeClient:
         self.chunk = 4096
         self.format = pyaudio.paInt16
         self.channels = 1 #2
-        self.rate = 16000
+        self.rate = 16000 #48000
         self.record_seconds = 60000
         self.save_output_recording = save_output_recording
         self.output_recording_filename = output_recording_filename
@@ -327,6 +327,7 @@ class TranscriptionTeeClient:
                 rate=self.rate,
                 input=True,
                 frames_per_buffer=self.chunk,
+                #input_device_index=4, #4=jack. 18=default
             )
         except OSError as error:
             print(f"[WARN]: Unable to access microphone. {error}")
@@ -587,6 +588,7 @@ class TranscriptionTeeClient:
                 audio_array = self.bytes_to_float_array(data)
 
                 #audio_array = audio_array[0::2]
+                #print(audio_array.shape)
 
                 self.multicast_packet(audio_array.tobytes())
 
